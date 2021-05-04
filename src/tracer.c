@@ -18,12 +18,13 @@
 #include "std/io.h"
 #endif
 
-// Default memory is 3.0 MtT
+// Default memory is 3MtT
 #define MEMORY_SIZE (3 * METRI)
 
 int main(int argc, char const* argv[]) {
-    __tryte_buffer(memory, MEMORY_SIZE);
-    __tryte(t) = {97, 72, 128};
-    tryteset(memory, t);
-    puts(memview(memory, 1));
+    __tryte_buffer(memory, 5);
+    __tryte(t) = {138, 56, 128};
+    tryteset(memory, 0, t);
+    puts(memview(memory, 0, 3));
+    puts("\n");
 }

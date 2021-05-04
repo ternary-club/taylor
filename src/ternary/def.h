@@ -46,3 +46,18 @@
 
 // Tryte pointer macro declaration
 #define __tryte_ptr(name) uint8_t *name
+
+// Heptavintimal digit to decimal
+// #define __htd(c) return c >= '0' && c <= '9' \
+//     ? c - '0' \
+//     : c >= 'a' && c <= 'z' \
+//         ? c - 'a' \
+//         : c >= 'A' && c <= 'Z' \
+//             ? c - 'A' \
+//             : 0
+
+// A 0 valued tryte
+__tryte(tryteEMPTY) = {0U, 0U, 0U};
+
+// A 19683 valued tryte
+__tryte(tryteFULL) = {170U, 170U, 128U};
