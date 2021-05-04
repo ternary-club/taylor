@@ -1,4 +1,7 @@
-#include "syscalls.h"
+#ifndef DRIVER_DEF_H
+#define DRIVER_DEF_H
+#include "def.h"
+#endif
 
 typedef unsigned long int uintptr;
 typedef long int intptr;
@@ -23,16 +26,4 @@ intptr write(int fd, void const *data, uintptr nbytes) {
         (void*)data,
         (void*)nbytes
     );
-}
-
-internal
-uintptr strlen(char const *str) {
-    char const *p;
-    for (p = str; *p; ++p);
-    return p - str;
-}
-
-internal
-uintptr puts(char const *str) {
-    return write(stdout, str, strlen(str));
 }

@@ -2,9 +2,8 @@
 
 exename="tracer"
 
-gcc -std=c89 -pedantic -s -O2 -Wall -Werror \
+gcc -pedantic -s -O2 -Werror \
 -nostdlib \
--fno-unwind-tables \
 -fno-asynchronous-unwind-tables \
 -fdata-sections \
 -Wl,--gc-sections \
