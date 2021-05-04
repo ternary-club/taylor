@@ -27,8 +27,7 @@ void tryteset(__tryte_ptr(memory), uint64_t address, __tryte(t)) {
     uint8_t mask = 0xff >> offset;
     memory[byte + 0] &= ~mask;
     memory[byte + 0] |= t[0] >> offset;
-    memory[byte + 1] = 0;
-    memory[byte + 1] |= t[0] << CHAR_BIT - offset;
+    memory[byte + 1] =  t[0] << CHAR_BIT - offset;
     memory[byte + 1] |= t[1] >> offset;
     mask >>= TRIT_BIT;
     memory[byte + 2] &= mask;
@@ -54,8 +53,9 @@ const char *memview(__tryte_ptr(memory), uint64_t address, uint64_t count) {
     static char memBuffer[(HEPTA_TRIT + 1) * KITRI + 1]; // TEMP LENGTH
     uint32_t p = 0;
     for(uint64_t i = 0; i < count; i++) {
-        __tryte_ret t = tryteget(memory, tryte_b(address + i));
-        for(uint8_t j = 0; j < TRYTE_TRIT; j += 3) {
+        __tryte_ret t = tryteget(memory, address + i);
+        memBuffer[p++] = '|';
+        for(uint8_t j = 0; j < TRYTE_TRIT; j += HEPTA_TRIT) {
             // 0tX00 +
             memBuffer[p] = ((t[__byte_of_trit(j + 0)] & 3 // 3 = 0b11
                 << (BYTE_TRIT - 1 - (j + 0) % BYTE_TRIT) * TRIT_BIT)
@@ -71,7 +71,6 @@ const char *memview(__tryte_ptr(memory), uint64_t address, uint64_t count) {
             memBuffer[p] += '0' + (memBuffer[p] >= 10) * ('A' - '9' - 1);
             p++;
         }
-        memBuffer[p++] = '|';
     }
     memBuffer[p] = '\0';
     return memBuffer;

@@ -30,6 +30,6 @@ int main(int argc, char const* argv[]) {
         t[2] = i + 546833 * i ^ 93811123;
         tryteset(memory, i, t);
     }
-    puts(memview(memory, 0, 50));
+    puts(memview(memory, 0, 112));
     puts("\n");
 }
