@@ -23,6 +23,9 @@
 // 1 tryte = 3 bytes
 #define TRYTE_BYTE (CEIL(TRYTE_TRIT, BYTE_TRIT))
 
+// 1 heptavintimal character = 3 trits
+#define HEPTA_TRIT (27 / TRYTE_TRIT)
+
 // 1 Kitri (Kt) = 3^7 = 2187
 #define KITRI 2187L
 
@@ -47,14 +50,8 @@
 // Tryte pointer macro declaration
 #define __tryte_ptr(name) uint8_t *name
 
-// Heptavintimal digit to decimal
-// #define __htd(c) return c >= '0' && c <= '9' \
-//     ? c - '0' \
-//     : c >= 'a' && c <= 'z' \
-//         ? c - 'a' \
-//         : c >= 'A' && c <= 'Z' \
-//             ? c - 'A' \
-//             : 0
+// Byte a trit is in
+#define __byte_of_trit(t) ((t)*TRIT_BIT / CHAR_BIT)
 
 // A 0 valued tryte
 __tryte(tryteEMPTY) = {0U, 0U, 0U};

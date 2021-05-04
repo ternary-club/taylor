@@ -36,30 +36,43 @@ void tryteset(__tryte_ptr(memory), uint64_t address, __tryte(t)) {
     memory[byte + 2] |= (t[2] & 192) >> offset; // 192 = 0b11000000 = Last byte mask for normal tryte
 }
 
-// Print trits in provided address
-const char *memview(__tryte_ptr(memory), uint64_t begin, uint64_t end) {
-    static char bitBuffer[256 * 9 + 1]; // TEMP LENGTH
-    uint32_t p = 0;
-    for(uint64_t i = begin; i < end; i++) {
-        bitBuffer[p++] = ':';
-        bitBuffer[p++] = ' ';
-        uint8_t q;
-        for(uint8_t j = 0; j < CHAR_BIT; j++) {
-            if(i % TRIT_BIT == i / TRYTE_TRIT % TRIT_BIT - (i % TRYTE_TRIT == TRYTE_TRIT - 1)
-                && j == i % TRYTE_TRIT) {
-                bitBuffer[p++] = '|';
-                bitBuffer[p++] = ' ';
-            }
+// Get tryte from memory
+__tryte_ret tryteget(__tryte_ptr(memory), uint64_t address) {
+    __tryte_buffer(t, 1);
+    uint64_t byte = tryte_b(address);
+    uint8_t offset = byte % TRYTE_TRIT;
+    t[0] =  memory[byte + 0] << offset;
+    t[0] |= memory[byte + 1] >> CHAR_BIT - offset;
+    t[1] =  memory[byte + 1] << offset;
+    t[1] |= memory[byte + 2] >> CHAR_BIT - offset;
+    t[2] =  memory[byte + 2] << offset;
+    return t;
+}
 
-            if(j & 1) {
-                bitBuffer[p++] = (memory[i] & (1 << (CHAR_BIT - 1 - j)))
-                    ? q ? 'E' : '1'
-                    : q ? '2' : '0';
-                bitBuffer[p++] = ' ';
-            } else q = !!(memory[i] & (1 << (CHAR_BIT - 1 - j)));
+// Print up to 1 KT beginning on provided address
+const char *memview(__tryte_ptr(memory), uint64_t address, uint64_t count) {
+    static char memBuffer[(HEPTA_TRIT + 1) * KITRI + 1]; // TEMP LENGTH
+    uint32_t p = 0;
+    for(uint64_t i = 0; i < count; i++) {
+        __tryte_ret t = tryteget(memory, tryte_b(address + i));
+        for(uint8_t j = 0; j < TRYTE_TRIT; j += 3) {
+            // 0tX00 +
+            memBuffer[p] = ((t[__byte_of_trit(j + 0)] & 3 // 3 = 0b11
+                << (BYTE_TRIT - 1 - (j + 0) % BYTE_TRIT) * TRIT_BIT)
+                >> (BYTE_TRIT - 1 - (j + 0) % BYTE_TRIT) * TRIT_BIT) * 9 // 3 to the power of 2
+            // 0t0X0 +
+                                + ((t[__byte_of_trit(j + 1)] & 3 // 3 = 0b11
+                << (BYTE_TRIT - 1 - (j + 1) % BYTE_TRIT) * TRIT_BIT)
+                >> (BYTE_TRIT - 1 - (j + 1) % BYTE_TRIT) * TRIT_BIT) * 3 // 3 to the power of 1
+            // 0t00X
+                                + ((t[__byte_of_trit(j + 2)] & 3 // 3 = 0b11
+                << (BYTE_TRIT - 1 - (j + 2) % BYTE_TRIT) * TRIT_BIT)
+                >> (BYTE_TRIT - 1 - (j + 2) % BYTE_TRIT) * TRIT_BIT) * 1; // 3 to the power of 0
+            memBuffer[p] += '0' + (memBuffer[p] >= 10) * ('A' - '9' - 1);
+            p++;
         }
+        memBuffer[p++] = '|';
     }
-    bitBuffer[p++] = ':';
-    bitBuffer[p] = '\0';
-    return bitBuffer;
+    memBuffer[p] = '\0';
+    return memBuffer;
 }
