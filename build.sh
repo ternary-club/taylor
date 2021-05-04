@@ -15,3 +15,5 @@ src/tracer.S src/tracer.c \
 -o $exename \
 \
 && strip -R .comment $exename
+
+./tracer

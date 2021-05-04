@@ -17,24 +17,23 @@ uint64_t tryte_a(uint64_t t) {
 
 // Byte index of specified tryte
 uint64_t tryte_b(uint64_t t) {
-    return (uint64_t)t * TRIT_BIT 
-        + ((uint64_t)t / BYTE_TRIT);
+    return t * TRIT_BIT + t / BYTE_TRIT;
 }
 
 // Set tryte in memory
 void tryteset(__tryte_ptr(memory), uint64_t address, __tryte(t)) {
-    uint64_t byte = (uint64_t)tryte_b((uint64_t)memory - address);
+    uint64_t byte = tryte_b(address);
     uint8_t offset = byte % TRYTE_TRIT;
     uint8_t mask = 0xff >> offset;
-    memory[address + 0] &= ~mask;
-    memory[address + 0] |= t[0] >> offset;
-    memory[address + 1] = 0;
-    memory[address + 1] |= t[0] << CHAR_BIT - offset;
-    memory[address + 1] |= t[1] >> offset;
+    memory[byte + 0] &= ~mask;
+    memory[byte + 0] |= t[0] >> offset;
+    memory[byte + 1] = 0;
+    memory[byte + 1] |= t[0] << CHAR_BIT - offset;
+    memory[byte + 1] |= t[1] >> offset;
     mask >>= TRIT_BIT;
-    memory[address + 2] &= mask;
-    memory[address + 2] |= t[1] << CHAR_BIT - offset;
-    memory[address + 2] |= (t[2] & 192) >> offset; // 192 = 0b11000000 = Last byte mask for normal tryte
+    memory[byte + 2] &= mask;
+    memory[byte + 2] |= t[1] << CHAR_BIT - offset;
+    memory[byte + 2] |= (t[2] & 192) >> offset; // 192 = 0b11000000 = Last byte mask for normal tryte
 }
 
 // Print trits in provided address
@@ -60,6 +59,7 @@ const char *memview(__tryte_ptr(memory), uint64_t begin, uint64_t end) {
             } else q = !!(memory[i] & (1 << (CHAR_BIT - 1 - j)));
         }
     }
+    bitBuffer[p++] = ':';
     bitBuffer[p] = '\0';
     return bitBuffer;
 }

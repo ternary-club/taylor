@@ -22,9 +22,9 @@
 #define MEMORY_SIZE (3 * METRI)
 
 int main(int argc, char const* argv[]) {
-    __tryte_buffer(memory, 5);
-    __tryte(t) = {138, 56, 128};
-    tryteset(memory, 0, t);
-    puts(memview(memory, 0, 3));
+    __tryte_buffer(memory, MEMORY_SIZE);
+    __tryte(t) = {0xff, 0xff, 0xff};
+    tryteset(memory, 6, t);
+    puts(memview(memory, 0, 128));
     puts("\n");
 }
