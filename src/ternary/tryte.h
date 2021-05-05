@@ -69,6 +69,7 @@ const char *memview(__tryte_ptr(memory), uint64_t address, uint64_t count) {
                 << (BYTE_TRIT - 1 - (j + 2) % BYTE_TRIT) * TRIT_BIT)
                 >> (BYTE_TRIT - 1 - (j + 2) % BYTE_TRIT) * TRIT_BIT) * 1; // 3 to the power of 0
             memBuffer[p] += '0' + (memBuffer[p] >= 10) * ('A' - '9' - 1);
+            if(memBuffer[p] > 'Q') memBuffer[p] = '?';
             p++;
         }
     }

@@ -22,14 +22,11 @@
 #define MEMORY_SIZE (3 * METRI)
 
 int main(int argc, char const* argv[]) {
+    // Memory
     __tryte_buffer(memory, MEMORY_SIZE);
-    __tryte(t);
-    for(uint64_t i = 0; i < 111; i++) {
-        t[0] = i + 237421 * i ^ 63295132;
-        t[1] = i + 912476 * i ^ 78621549;
-        t[2] = i + 546833 * i ^ 93811123;
-        tryteset(memory, i, t);
-    }
-    puts(memview(memory, 0, 112));
+
+    uint8_t buffer[200];
+    uint64_t file = open("./exec.txt");
+    read(file, buffer, 200);
     puts("\n");
 }
