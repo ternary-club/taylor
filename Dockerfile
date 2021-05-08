@@ -1,3 +1,3 @@
 FROM scratch
-ADD tracer /tracer
-CMD ["/tracer"]
+ADD tailor /tailor
+CMD ["/tailor"]

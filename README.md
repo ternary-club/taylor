@@ -1,5 +1,5 @@
-# tracer
- Ternary viRtuAl proCEssoR :)
+# TAILOR
+ TernAry vIrtuaL prOcessoR
 
 00 = 0
 01 = 1

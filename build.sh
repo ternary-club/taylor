@@ -1,6 +1,6 @@
 #!/bin/sh
 
-exename="tracer"
+exename="tailor"
 
 gcc -pedantic -s -O2 -Werror \
 -nostdlib \
@@ -11,9 +11,9 @@ gcc -pedantic -s -O2 -Werror \
 -fno-builtin \
 -fno-stack-protector \
 -static \
-src/tracer.S src/tracer.c \
+src/main.S src/main.c \
 -o $exename \
 \
 && strip -R .comment $exename
 
-./tracer
+./$exename
