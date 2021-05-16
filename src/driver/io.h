@@ -1,11 +1,11 @@
-#ifndef DRIVER_STD_H
-#define DRIVER_STD_H
-#include "../driver/std.h"
+#ifndef DRIVER_SYS_H
+#define DRIVER_SYS_H
+#include "sys.h"
 #endif
 
 #ifndef STD_INT_H
 #define STD_INT_H
-#include "int.h"
+#include "../std/int.h"
 #endif
 
 // Unsigned 8 bytes integer to string conversion
@@ -31,12 +31,14 @@ const char *itoa(uint64_t value) {
     return uintBuffer;
 }
 
-uint32_t strlen(char const *str) {
+// Get length of string
+uint64_t strlen(char const *str) {
     char const *p;
     for (p = str; *p; ++p);
     return p - str;
 }
 
+// Print string to screen
 internal
 uintptr puts(char const *str) {
     return write(stdout, str, strlen(str));

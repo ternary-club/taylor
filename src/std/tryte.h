@@ -1,11 +1,11 @@
-#ifndef UTILS_MATH_H
-#define UTILS_MATH_H
-#include "../utils/math.h"
+#ifndef STD_MATH_H
+#define STD_MATH_H
+#include "math.h"
 #endif
 
 #ifndef STD_INT_H
 #define STD_INT_H
-#include "../std/int.h"
+#include "int.h"
 #endif
 
 // 1 char = 8 bits
@@ -52,6 +52,11 @@
 
 // Byte a trit is in
 #define __byte_of_trit(t) ((t)*TRIT_BIT / CHAR_BIT)
+
+// Get array form of filling a tryte
+#define __fill_tryte(t, v0, v1, v2) t[0] = v0; \
+                                    t[1] = v1; \
+                                    t[2] = v2
 
 // A 0 valued tryte
 __tryte(tryteEMPTY) = {0U, 0U, 0U};

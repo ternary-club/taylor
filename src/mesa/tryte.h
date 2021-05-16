@@ -1,0 +1,130 @@
+#ifndef STD_INT_H
+#define STD_INT_H
+#include "../std/int.h"
+#endif
+
+#ifndef STD_TRYTE_H
+#define STD_TRYTE_H
+#include "../std/tryte.h"
+#endif
+
+#ifndef STD_INT_H
+#define STD_INT_H
+#include "int.h"
+#endif
+
+#ifndef META_PANIC_H
+#define META_PANIC_H
+#include "../meta/panic.h"
+#endif
+
+// Byte index of last tryte of specified byte
+uint64_t tryte_a(uint64_t t) {
+    return (uint64_t)t
+        + ((uint64_t)t % TRIT_BIT != (uint64_t)t / TRYTE_TRIT % TRIT_BIT)
+        + ((uint64_t)t % TRYTE_TRIT >= TRYTE_TRIT - TRIT_BIT);
+}
+
+// Byte index of specified tryte
+uint64_t tryte_b(uint64_t t) {
+    return t * TRIT_BIT + t / BYTE_TRIT;
+}
+
+// Set tryte in memory
+void set_tryte(__tryte_ptr(memory), uint64_t address, __tryte(t)) {
+    uint64_t byte = tryte_b(address);
+    uint8_t offset = byte % TRYTE_TRIT;
+    uint8_t mask = 0xff >> offset;
+    memory[byte + 0] &= ~mask;
+    memory[byte + 0] |= t[0] >> offset;
+    memory[byte + 1] =  t[0] << CHAR_BIT - offset;
+    memory[byte + 1] |= t[1] >> offset;
+    mask >>= TRIT_BIT;
+    memory[byte + 2] &= mask;
+    memory[byte + 2] |= t[1] << CHAR_BIT - offset;
+    memory[byte + 2] |= (t[2] & 192) >> offset; // 192 = 0b11000000 = Last byte mask for normal tryte
+}
+
+// Get tryte from memory
+__tryte_ret get_tryte(__tryte_ptr(memory), uint64_t address) {
+    __tryte_buffer(t, 1);
+    uint64_t byte = tryte_b(address);
+    uint8_t offset = byte % TRYTE_TRIT;
+    t[0] =  memory[byte + 0] << offset;
+    t[0] |= memory[byte + 1] >> CHAR_BIT - offset;
+    t[1] =  memory[byte + 1] << offset;
+    t[1] |= memory[byte + 2] >> CHAR_BIT - offset;
+    t[2] =  memory[byte + 2] << offset;
+    return t;
+}
+
+// Transform tryte to uint64_t
+uint64_t read_tryte(__tryte_ptr(tryte)) {
+    uint64_t r = 0;
+    for(uint8_t i = 0; i < TRYTE_TRIT; i++) {
+        uint8_t offset = (BYTE_TRIT - 1 - i % BYTE_TRIT) * 2;
+        uint8_t value = (tryte[__byte_of_trit(i)] & 3 << offset) >> offset; // 3 = 0b11
+        switch(value) {
+            case 0: // 0 = 0b00
+                continue;
+            case 3: // 3 = 0b11
+                panic(); // double-one
+                return 0;
+            default: // 1 = 0b01
+                r += power(3, TRYTE_TRIT - i - 1) * value;
+                continue;
+        }
+    }
+    return r;
+}
+
+// Return string of up to 1 KT of read trytes beginning on provided address
+const char *show_tryte(__tryte_ptr(memory), uint64_t address, uint64_t count) {
+    static char memBuffer[(HEPTA_TRIT + 1) * KITRI + 1];
+    uint32_t p = 0;
+    for(uint64_t i = 0; i < count; i++) {
+        __tryte_ret t = get_tryte(memory, address + i);
+        memBuffer[p++] = '|';
+        for(uint8_t j = 0; j < TRYTE_TRIT; j += HEPTA_TRIT) {
+            // 0tX00 +
+            uint8_t trit = ((t[__byte_of_trit(j + 0)] & 3 // 3 = 0b11
+                << (BYTE_TRIT - 1 - (j + 0) % BYTE_TRIT) * TRIT_BIT)
+                >> (BYTE_TRIT - 1 - (j + 0) % BYTE_TRIT) * TRIT_BIT);
+            if(trit == 3) { // 3 = 0b11 (double-one)
+                memBuffer[p++] = '?';
+                continue;
+            }            
+            memBuffer[p] += trit * 9; // 3 to the power of 2
+
+            // 0t0X0 +
+            trit = ((t[__byte_of_trit(j + 1)] & 3 // 3 = 0b11
+                << (BYTE_TRIT - 1 - (j + 1) % BYTE_TRIT) * TRIT_BIT)
+                >> (BYTE_TRIT - 1 - (j + 1) % BYTE_TRIT) * TRIT_BIT);
+            if(trit == 3) { // 3 = 0b11 (double-one)
+                memBuffer[p++] = '?';
+                continue;
+            }            
+            memBuffer[p] += trit * 3; // 3 to the power of 1
+            
+            // 0t00X
+            trit = ((t[__byte_of_trit(j + 2)] & 3 // 3 = 0b11
+                << (BYTE_TRIT - 1 - (j + 2) % BYTE_TRIT) * TRIT_BIT)
+                >> (BYTE_TRIT - 1 - (j + 2) % BYTE_TRIT) * TRIT_BIT);
+            if(trit == 3) { // 3 = 0b11 (double-one)
+                memBuffer[p++] = '?';
+                continue;
+            }            
+            memBuffer[p] += trit * 1; // 3 to the power of 0
+
+            memBuffer[p] += '0' + (memBuffer[p] >= 10) * ('A' - '9' - 1);
+            p++;
+        }
+    }
+    memBuffer[p] = '\0';
+    return memBuffer;
+}
+
+// ALU
+// CARRY (1 trit) (0 = no carry, 1 = carry 1, 2 = carry 2)
+// SIGN (1 trit) (0 = -, 1 = 0, 2 = +)
+// OVERFLOW/PARITY (1 trit) (0 = even, 1 = odd, 2 = overflow)

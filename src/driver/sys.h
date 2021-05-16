@@ -3,9 +3,9 @@
 #include "../std/int.h"
 #endif
 
-#ifndef DRIVER_DEF_H
-#define DRIVER_DEF_H
-#include "def.h"
+#ifndef DRIVER_CALLS_H
+#define DRIVER_CALLS_H
+#include "calls.h"
 #endif
 
 typedef unsigned long int uintptr;
@@ -72,6 +72,16 @@ intptr close(uint64_t fileDescriptor) {
     syscall1(
         SYS_close,
         (void*)fileDescriptor
+    );
+}
+
+// Perform an 'exit' system call
+internal
+intptr exit(uint64_t statusCode) {
+    return (intptr)
+    syscall1(
+        SYS_exit,
+        (void*)statusCode
     );
 }
 
