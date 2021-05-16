@@ -1,26 +1,26 @@
-# TAILOR
- TernAry vIrtuaL prOcessoR
+# TAILOR (**T**ern**A**ry v**I**rtuaL pr**O**cesso**R**)
 
-0  NOOP
-1  COMP    addr
-2  JUMP    addr
-3  JMPG    addr
-4  JMPL    addr
-5  JMPGE   addr
-6  JMPLE   addr
-7  JMPE    addr
-8  JMPN    addr
-9  STORE   addr
-A  LOAD    addr
-B  ADD     addr
-C  SUB     addr
-D  MUL     addr
-E  DIV     addr
-F  CALL    int
-G  HALT
+## Operation codes with parameters
+0  **NOOP**
+<br> 1  **COMP**   addr
+<br> 2  **JUMP**   addr
+<br> 3  **JMPG**   addr
+<br> 4  **JMPL**   addr
+<br> 5  **JMPGE**   addr
+<br> 6  **JMPLE**   addr
+<br> 7  **JMPE**    addr
+<br> 8  **JMPN**    addr
+<br> 9  **STORE**   addr
+<br> A  **LOAD**    addr
+<br> B  **ADD**     addr
+<br> C  **SUB**     addr
+<br> D  **MUL**     addr
+<br> E  **DIV**     addr
+<br> F  **CALL**    int
+<br> G  **HALT**
 
 Folder scopes:
-driver  = Code related to the communication of TAILOR and the amd64 binary physical processor.
-meta    = Low-level code related to virtual scope of this processor.
-mesa    = Low-level code related to physical scope of this processor.
-std     = Code related to this implementation.
+<br> **driver**  = Code related to the communication of TAILOR and the amd64 binary physical processor.
+<br> **meta**    = Low-level code related to the virtual scope of this processor.
+<br> **mesa**    = Low-level code related to the physical scope of this processor.
+<br> **std**     = Code related to this implementation.

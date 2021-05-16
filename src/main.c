@@ -59,17 +59,16 @@ int main(int argc, char const* argv[]) {
     // Accumulator
     __tryte(acc);
     // Instruction pointer
-    __tryte(ip);
+    // __tryte(ip);
+    uint64_t ip = 0;
     // Operation register
     __tryte(op);
+    INSTRUCTION in = NOOP;
     // Argument register
     __tryte(ar);
 
-    // Auxiliary variable for instruction fetching
-    INSTRUCTION in = NOOP;
-
     while(in != HALT) {
-        set_tryte(op, 0, get_tryte(memory, read_tryte(ip)));
+        set_tryte(op, 0, get_tryte(memory, ip));
         in = read_tryte(op);
 
         switch(in) {
@@ -125,7 +124,7 @@ int main(int argc, char const* argv[]) {
                 puts("HALT\n");
                 break;
         }
-        // ip++;
+        ip++;
     }
 
     // char buffer[200];
