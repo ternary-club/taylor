@@ -17,14 +17,26 @@
 // 1 tryte = 9 trits
 #define TRYTE_TRIT 9
 
+// 1 word = 3 trytes
+#define WORD_TRYTE 3
+
+// 1 word = 27 trits
+#define WORD_TRIT (WORD_TRYTE * TRYTE_TRIT)
+
 // 1 byte = 4 trits
 #define BYTE_TRIT (CHAR_BIT / TRIT_BIT)
 
 // 1 tryte = 3 bytes
 #define TRYTE_BYTE (CEIL(TRYTE_TRIT, BYTE_TRIT))
 
+// 1 word = 7 bytes
+#define WORD_BYTE (CEIL(WORD_TRIT, BYTE_TRIT))
+
+// 1 word = 7 bytes
+#define TRIPLE_WORD_BYTE (CEIL(WORD_TRIT * 3, BYTE_TRIT))
+
 // 1 heptavintimal character = 3 trits
-#define HEPTA_TRIT (27 / TRYTE_TRIT)
+#define HEPTA_VINTIMAL_TRIT (27 / TRYTE_TRIT)
 
 // 1 Kitri (Kt) = 3^7 = 2187
 #define KITRI 2187L
@@ -38,8 +50,17 @@
 // 1 Tetri (Tt) = 3^7^4 = 2187^4 = 22876792454961
 #define TETRI 22876792454961LL
 
+// Triple Word macro declaration
+#define __triple_word(name) static uint8_t name[WORD_BYTE * 3]
+
+// Word macro declaration
+#define __word(name) static uint8_t name[WORD_BYTE]
+
 // Tryte macro declaration
-#define __tryte(name) uint8_t name[TRYTE_BYTE]
+#define __tryte(name) static uint8_t name[TRYTE_BYTE]
+
+// Trybble macro declaration
+#define __trybble(name) static uint8_t name
 
 // Tryte buffer macro declaration
 #define __tryte_buffer(name, count) static uint8_t name[CEIL(count * TRYTE_TRIT, BYTE_TRIT)]

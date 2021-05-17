@@ -8,6 +8,11 @@
 #include "mesa/tryte.h"
 #endif
 
+#ifndef MESA_REGISTERS_H
+#define MESA_REGISTERS_H
+#include "mesa/registers.h"
+#endif
+
 #ifndef STD_OP_H
 #define STD_OP_H
 #include "std/op.h"
@@ -56,19 +61,9 @@ int main(int argc, char const* argv[]) {
     __fill_tryte(t, 0, 0, 64);
     set_tryte(memory, 7, t);    // 1
 
-    // Accumulator
-    __tryte(acc);
-    // Instruction pointer
-    // __tryte(ip);
-    uint64_t ip = 0;
-    // Operation register
-    __tryte(op);
     INSTRUCTION in = NOOP;
-    // Argument register
-    __tryte(ar);
-
     while(in != HALT) {
-        set_tryte(op, 0, get_tryte(memory, ip));
+        set_tryte(op, 0, get_tryte(memory, read_tryte(ip)));
         in = read_tryte(op);
 
         switch(in) {
@@ -77,48 +72,63 @@ int main(int argc, char const* argv[]) {
                 break;
             case COMP:
                 puts("COMP\n");
+                ip++;
                 break;
             case JUMP:
                 puts("JUMP\n");
+                ip++;
                 break;
             case JMPG:
                 puts("JMPG\n");
+                ip++;
                 break;
             case JMPL:
                 puts("JMPL\n");
+                ip++;
                 break;
             case JMPGE:
                 puts("JMPGE\n");
+                ip++;
                 break;
             case JMPLE:
                 puts("JMPLE\n");
+                ip++;
                 break;
             case JMPE:
                 puts("JMPE\n");
+                ip++;
                 break;
             case JMPN:
                 puts("JMPN\n");
+                ip++;
                 break;
             case STORE:
                 puts("STORE\n");
+                ip++;
                 break;
             case LOAD:
                 puts("LOAD\n");
+                ip++;
                 break;
             case ADD:
                 puts("ADD\n");
+                ip++;
                 break;
             case SUB:
                 puts("SUB\n");
+                ip++;
                 break;
             case MUL:
                 puts("MUL\n");
+                ip++;
                 break;
             case DIV:
                 puts("DIV\n");
+                ip++;
                 break;
             case CALL:
                 puts("CALL\n");
+                ip++;
                 break;
             case HALT:
                 puts("HALT\n");

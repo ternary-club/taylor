@@ -31,7 +31,7 @@ uint64_t tryte_b(uint64_t t) {
 }
 
 // Set tryte in memory
-void set_tryte(__tryte_ptr(memory), uint64_t address, __tryte(t)) {
+void set_tryte(__tryte_ptr(memory), uint64_t address, __tryte_ptr(t)) {
     uint64_t byte = tryte_b(address);
     uint8_t offset = byte % TRYTE_TRIT;
     uint8_t mask = 0xff >> offset;
@@ -80,12 +80,12 @@ uint64_t read_tryte(__tryte_ptr(tryte)) {
 
 // Return string of up to 1 KT of read trytes beginning on provided address
 const char *show_tryte(__tryte_ptr(memory), uint64_t address, uint64_t count) {
-    static char memBuffer[(HEPTA_TRIT + 1) * KITRI + 1];
+    static char memBuffer[(HEPTA_VINTIMAL_TRIT + 1) * KITRI + 1];
     uint32_t p = 0;
     for(uint64_t i = 0; i < count; i++) {
         __tryte_ret t = get_tryte(memory, address + i);
         memBuffer[p++] = '|';
-        for(uint8_t j = 0; j < TRYTE_TRIT; j += HEPTA_TRIT) {
+        for(uint8_t j = 0; j < TRYTE_TRIT; j += HEPTA_VINTIMAL_TRIT) {
             // 0tX00 +
             uint8_t trit = ((t[__byte_of_trit(j + 0)] & 3 // 3 = 0b11
                 << (BYTE_TRIT - 1 - (j + 0) % BYTE_TRIT) * TRIT_BIT)
@@ -123,8 +123,3 @@ const char *show_tryte(__tryte_ptr(memory), uint64_t address, uint64_t count) {
     memBuffer[p] = '\0';
     return memBuffer;
 }
-
-// ALU
-// CARRY (1 trit) (0 = no carry, 1 = carry 1, 2 = carry 2)
-// SIGN (1 trit) (0 = -, 1 = 0, 2 = +)
-// OVERFLOW/PARITY (1 trit) (0 = even, 1 = odd, 2 = overflow)
