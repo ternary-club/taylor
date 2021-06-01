@@ -13,18 +13,39 @@
 #include "mesa/registers.h"
 #endif
 
+#ifndef MESA_ALU_H
+#define MESA_ALU_H
+#include "./mesa/alu.h"
+#endif
+
 #ifndef STD_OP_H
 #define STD_OP_H
 #include "std/op.h"
 #endif
 
-#ifndef DRIVER_IO_H
-#define DRIVER_IO_H
-#include "driver/io.h"
+#ifndef STD_STR_H
+#define STD_STR_H
+#include "std/str.h"
 #endif
 
 // Default memory is 3MtT
 #define MEMORY_SIZE (3 * METRI)
+
+char *batata(uint8_t a) {
+    static char b[2] = {0, 0};
+    switch (a) {
+        case 0:
+            b[0] = '-';
+            break;
+        case 1:
+            b[0] = '0';
+            break;
+        case 2:
+            b[0] = '+';
+            break;
+        }
+    return b;
+}
 
 int main(int argc, char const* argv[]) {
     // Memory
@@ -36,110 +57,129 @@ int main(int argc, char const* argv[]) {
     // 3 halt
     // 4 1
     
-    __tryte(t);
-    __fill_tryte(t, 0, 4, 64);
-    set_tryte(memory, 0, t);    // LOAD
+    // __tryte(t);
+    // __fill_tryte(t, 0, 4, 64);
+    // set_tryte(memory, 0, t);    // LOAD
 
-    __fill_tryte(t, 0, 2, 64);
-    set_tryte(memory, 1, t);    // 7
+    // __fill_tryte(t, 0, 2, 64);
+    // set_tryte(memory, 1, t);    // 7
 
-    __fill_tryte(t, 0, 4, 128);
-    set_tryte(memory, 2, t);    // ADD
+    // __fill_tryte(t, 0, 4, 128);
+    // set_tryte(memory, 2, t);    // ADD
 
-    __fill_tryte(t, 0, 2, 64);
-    set_tryte(memory, 3, t);    // 7
+    // __fill_tryte(t, 0, 2, 64);
+    // set_tryte(memory, 3, t);    // 7
 
-    __fill_tryte(t, 0, 4, 0);
-    set_tryte(memory, 4, t);    // STORE
+    // __fill_tryte(t, 0, 4, 0);
+    // set_tryte(memory, 4, t);    // STORE
 
-    __fill_tryte(t, 0, 2, 64);
-    set_tryte(memory, 5, t);    // 7
+    // __fill_tryte(t, 0, 2, 64);
+    // set_tryte(memory, 5, t);    // 7
 
-    __fill_tryte(t, 0, 6, 64);
-    set_tryte(memory, 6, t);    // HALT
+    // __fill_tryte(t, 0, 6, 64);
+    // set_tryte(memory, 6, t);    // HALT
 
-    __fill_tryte(t, 0, 0, 64);
-    set_tryte(memory, 7, t);    // 1
+    // __fill_tryte(t, 0, 0, 64);
+    // set_tryte(memory, 7, t);    // 1
 
-    INSTRUCTION in = NOOP;
-    while(in != HALT) {
-        set_tryte(op, 0, get_tryte(memory, read_tryte(ip)));
-        in = read_tryte(op);
+    // INSTRUCTION in = NOOP;
+    // while(in != HALT) {
+    //     set_tryte(__OP, 0, get_tryte(memory, read_tryte(__IP)));
+    //     in = read_tryte(__OP);
 
-        switch(in) {
-            case NOOP:
-                puts("NOOP\n");
-                break;
-            case COMP:
-                puts("COMP\n");
-                ip++;
-                break;
-            case JUMP:
-                puts("JUMP\n");
-                ip++;
-                break;
-            case JMPG:
-                puts("JMPG\n");
-                ip++;
-                break;
-            case JMPL:
-                puts("JMPL\n");
-                ip++;
-                break;
-            case JMPGE:
-                puts("JMPGE\n");
-                ip++;
-                break;
-            case JMPLE:
-                puts("JMPLE\n");
-                ip++;
-                break;
-            case JMPE:
-                puts("JMPE\n");
-                ip++;
-                break;
-            case JMPN:
-                puts("JMPN\n");
-                ip++;
-                break;
-            case STORE:
-                puts("STORE\n");
-                ip++;
-                break;
-            case LOAD:
-                puts("LOAD\n");
-                ip++;
-                break;
-            case ADD:
-                puts("ADD\n");
-                ip++;
-                break;
-            case SUB:
-                puts("SUB\n");
-                ip++;
-                break;
-            case MUL:
-                puts("MUL\n");
-                ip++;
-                break;
-            case DIV:
-                puts("DIV\n");
-                ip++;
-                break;
-            case CALL:
-                puts("CALL\n");
-                ip++;
-                break;
-            case HALT:
-                puts("HALT\n");
-                break;
-        }
-        ip++;
-    }
+    //     switch(in) {
+    //         case NOOP:
+    //             puts("NOOP\n");
+    //             break;
+    //         case COMP:
+    //             puts("COMP\n");
+    //             __IP++;
+    //             break;
+    //         case JUMP:
+    //             puts("JUMP\n");
+    //             __IP++;
+    //             break;
+    //         case JMPG:
+    //             puts("JMPG\n");
+    //             __IP++;
+    //             break;
+    //         case JMPL:
+    //             puts("JMPL\n");
+    //             __IP++;
+    //             break;
+    //         case JMPGE:
+    //             puts("JMPGE\n");
+    //             __IP++;
+    //             break;
+    //         case JMPLE:
+    //             puts("JMPLE\n");
+    //             __IP++;
+    //             break;
+    //         case JMPE:
+    //             puts("JMPE\n");
+    //             __IP++;
+    //             break;
+    //         case JMPN:
+    //             puts("JMPN\n");
+    //             __IP++;
+    //             break;
+    //         case STORE:
+    //             puts("STORE\n");
+    //             __IP++;
+    //             break;
+    //         case LOAD:
+    //             puts("LOAD\n");
+    //             __IP++;
+    //             break;
+    //         case ADD:
+    //             puts("ADD\n");
+    //             __IP++;
+    //             break;
+    //         case SUB:
+    //             puts("SUB\n");
+    //             __IP++;
+    //             break;
+    //         case MUL:
+    //             puts("MUL\n");
+    //             __IP++;
+    //             break;
+    //         case DIV:
+    //             puts("DIV\n");
+    //             __IP++;
+    //             break;
+    //         case CALL:
+    //             puts("CALL\n");
+    //             __IP++;
+    //             break;
+    //         case HALT:
+    //             puts("HALT\n");
+    //             break;
+    //     }
+    //     __IP++;
+    // }
 
     // char buffer[200];
     // uint64_t file = open("./exec.txt");
     // read(file, buffer, 200);
     // puts(buffer);
     // puts("\n");
+
+    __tryte(a) = {85, 96, 64};
+    __tryte(b) = {85, 86, 0};
+    puts(tryte_to_bstring(a));
+    puts("\n");
+    puts(tryte_to_bstring(b));
+    puts("\n");
+    ALU_add(a, b);
+    puts(tryte_to_bstring(a));
+    puts("\n");
+    
+    // for(uint8_t i = 0; i < 9; i++) {
+    //     puts(batata(i % 3));
+    //     puts(" sum ");
+    //     puts(batata(i / 3));
+    //     puts(" = ");
+    //     puts(batata(__sum(i % 3, i / 3)));
+    //     puts("\n");
+    // }
 }

@@ -8,6 +8,12 @@
 #include "int.h"
 #endif
 
+// Macros for two bit notation
+#define b00 0
+#define b01 1
+#define b10 2
+#define b11 3
+
 // 1 char = 8 bits
 #define CHAR_BIT 8
 
@@ -35,8 +41,11 @@
 // 1 word = 7 bytes
 #define TRIPLE_WORD_BYTE (CEIL(WORD_TRIT * 3, BYTE_TRIT))
 
+// Heptavintimal = 27
+#define HEPTA_VINTIMAL 27
+
 // 1 heptavintimal character = 3 trits
-#define HEPTA_VINTIMAL_TRIT (27 / TRYTE_TRIT)
+#define HEPTA_VINTIMAL_TRIT (HEPTA_VINTIMAL / TRYTE_TRIT)
 
 // 1 Kitri (Kt) = 3^7 = 2187
 #define KITRI 2187L
@@ -62,6 +71,12 @@
 // Trybble macro declaration
 #define __trybble(name) static uint8_t name
 
+// Trit macro declaration
+#define __trit(name) uint8_t name
+
+// Trit macro declaration
+#define __trit_ret uint8_t
+
 // Tryte buffer macro declaration
 #define __tryte_buffer(name, count) static uint8_t name[CEIL(count * TRYTE_TRIT, BYTE_TRIT)]
 
@@ -74,13 +89,16 @@
 // Byte a trit is in
 #define __byte_of_trit(t) ((t)*TRIT_BIT / CHAR_BIT)
 
+// Offset of 0b11 inside a byte
+#define __trit_offset(i) ((BYTE_TRIT - 1 - (i) % BYTE_TRIT) * TRIT_BIT)
+
 // Get array form of filling a tryte
 #define __fill_tryte(t, v0, v1, v2) t[0] = v0; \
                                     t[1] = v1; \
                                     t[2] = v2
 
 // A 0 valued tryte
-__tryte(tryteEMPTY) = {0U, 0U, 0U};
+__tryte(tryteEMPTY) = {85U, 85U, 64U};
 
 // A 19683 valued tryte
 __tryte(tryteFULL) = {170U, 170U, 128U};
