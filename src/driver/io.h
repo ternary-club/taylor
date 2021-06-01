@@ -8,27 +8,34 @@
 #include "../std/int.h"
 #endif
 
-// Unsigned 8 bytes integer to string conversion
-const char *itoa(uint64_t value) {
-    static char uintBuffer[128];
-    uint8_t size;
-    uint64_t test = value;
-    while(test / 10) {
-        test /= 10;
-        size++;
+// 8 Bytes signed integer to string
+char *itoa(int64_t value) {
+    static char intBuffer[16];
+    char tmp[16];
+    char *sp = intBuffer;
+    char *tp = tmp;
+    uint32_t v;
+
+    uint8_t sign = value < 0;    
+    if(sign) v = -value;
+    else v = value;
+
+    while(v || tp == tmp) {
+        uint8_t i = v % 10;
+        v /= 10;
+        *tp++ = i + '0';
     }
 
-    uint8_t index = 0;
-    while(value / 10) {
-        uint8_t remainder = value % 10;
-        value /= 10;
-        uintBuffer[size - index] = remainder + '0';
-        index++;
+    uint8_t len = tp - tmp;
+    if(sign) {
+        *tp++ = '-';
+        len++;
     }
-    uint8_t remainder = value % 10;
-    uintBuffer[size - index] = remainder + '0';
-    uintBuffer[size + 1] = '\0';
-    return uintBuffer;
+    while(tp > tmp) *sp++ = *--tp;
+
+    intBuffer[len] = '\0';
+
+    return intBuffer;
 }
 
 // Get length of string

@@ -26,24 +26,39 @@ __tryte(__alu_RESULT);
 // OVERFLOW/PARITY (1 trit) (0 = even, 1 = odd, 2 = overflow)
 __trybble(__alu_FLAGS);
 
+char *batata(uint8_t a) {
+    static char b[2] = {0, 0};
+    switch (a) {
+        case 0:
+            b[0] = '<';
+            break;
+        case 1:
+            b[0] = '/';
+            break;
+        case 2:
+            b[0] = '>';
+            break;
+        }
+    return b;
+}
+
 void ALU_add(__tryte_ptr(target), __tryte_ptr(source)) {
     __trit(carry) = 1;
+    puts("\n");
+    puts("target = ");
+    puts(tryte_to_string(target));
+    puts("\n");
+    puts("source = ");
+    puts(tryte_to_string(source));
+    puts("\n");
     for(uint8_t i = 0; i < TRYTE_TRIT; i++) {
         uint8_t byte = __byte_of_trit(i);
         uint8_t offset = __trit_offset(i);
         uint8_t a = (source[byte] & b11 << offset) >> offset;
         uint8_t b = (target[byte] & b11 << offset) >> offset;
-        puts("| ");
-        puts(tryte_to_bstring(target));
-        puts("\n");
-        puts(itoa(offset));
-        puts("\n");
         target[byte] &= ~(b11 << offset);
         target[byte] |= __sum(__sum(a, b), carry) << offset;
         carry = __any(__con(a, b), __con(__sum(a, b), carry));
     }
-    puts("| ");
-    puts(tryte_to_bstring(target));
-    puts("\n");
     if(!!carry) __alu_FLAGS |= 192; // Set carry (0b11000000)
 }

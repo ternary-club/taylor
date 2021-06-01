@@ -31,22 +31,6 @@
 // Default memory is 3MtT
 #define MEMORY_SIZE (3 * METRI)
 
-char *batata(uint8_t a) {
-    static char b[2] = {0, 0};
-    switch (a) {
-        case 0:
-            b[0] = '-';
-            break;
-        case 1:
-            b[0] = '0';
-            break;
-        case 2:
-            b[0] = '+';
-            break;
-        }
-    return b;
-}
-
 int main(int argc, char const* argv[]) {
     // Memory
     __tryte_buffer(memory, MEMORY_SIZE);
@@ -164,16 +148,21 @@ int main(int argc, char const* argv[]) {
     // puts(buffer);
     // puts("\n");
 
-    __tryte(a) = {85, 96, 64};
-    __tryte(b) = {85, 86, 0};
+    __tryte(a) = {85, 106, 0};
+    __tryte(b) = {85, 21, 64};
+
     puts(tryte_to_bstring(a));
-    puts("\n");
+    puts(" + ");
     puts(tryte_to_bstring(b));
-    puts("\n");
+    puts(" = ");
     ALU_add(a, b);
     puts(tryte_to_bstring(a));
     puts("\n");
-    
+
+    puts(" = ");
+    puts(tryte_to_string(a));
+    puts("\n");
+
     // for(uint8_t i = 0; i < 9; i++) {
     //     puts(batata(i % 3));
     //     puts(" sum ");

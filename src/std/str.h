@@ -20,10 +20,10 @@
 
 // Tryte (3 bytes) integer to string
 const char *tryte_to_string(__tryte_ptr(t)) {
-    uint64_t result = 0;
+    int64_t result = 0;
     for(uint8_t i = 0; i < TRYTE_TRIT; i++)
-        result += (t[__byte_of_trit(i)]
-            & (b11 << __trit_offset(i)) >> __trit_offset(i))
+        result += (((t[__byte_of_trit(i)]
+            & (b11 << __trit_offset(i))) >> __trit_offset(i)) - 1)
             * power(3, TRYTE_TRIT - 1 - i);
     return itoa(result);
 }
@@ -41,7 +41,7 @@ const char *tryte_to_tstring(__tryte_ptr(t)) {
     return tryteBuffer;
 }
 
-// Tryte (3 bytes) integer to ternary string
+// Tryte (3 bytes) integer to trinary string
 const char *tryte_to_bstring(__tryte_ptr(t)) {
     static char tryteBuffer[TRYTE_TRIT + 1];
     for(uint8_t i = 0; i < TRYTE_TRIT; i++) {
