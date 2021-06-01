@@ -159,10 +159,6 @@ int main(int argc, char const* argv[]) {
     puts(tryte_to_bstring(a));
     puts("\n");
 
-    puts(" = ");
-    puts(tryte_to_string(a));
-    puts("\n");
-
     // for(uint8_t i = 0; i < 9; i++) {
     //     puts(batata(i % 3));
     //     puts(" sum ");
