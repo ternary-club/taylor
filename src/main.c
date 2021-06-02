@@ -30,10 +30,16 @@
 
 // Default memory is 3MtT
 #define MEMORY_SIZE (3 * METRI)
+// Memory
+__tryte_buffer(memory, MEMORY_SIZE);
+
+// Extract tryte from memory
+void pop_tryte() {
+    ALU_add(IP, ONE);
+    set_tryte(OP, 0, get_tryte(memory, read_tryte(IP)));
+}
 
 int main(int argc, char const* argv[]) {
-    // Memory
-    // __tryte_buffer(memory, MEMORY_SIZE);
 
     // 0 load 4
     // 1 add  4
@@ -41,81 +47,115 @@ int main(int argc, char const* argv[]) {
     // 3 halt
     // 4 1
     
-    // __tryte(t);
-    // __fill_tryte(t, 0, 4, 64);
-    // set_tryte(memory, 0, t);    // LOAD
+    __tryte(t);
+    __fill_tryte(t, 0, 4, 64);
+    set_tryte(memory, 0, t);    // LOAD
 
-    // __fill_tryte(t, 0, 2, 64);
-    // set_tryte(memory, 1, t);    // 7
+    __fill_tryte(t, 0, 1, 64);
+    set_tryte(memory, 1, t);    // 4
 
-    // __fill_tryte(t, 0, 4, 128);
-    // set_tryte(memory, 2, t);    // MATH
+    __fill_tryte(t, 0, 4, 128);
+    set_tryte(memory, 2, t);    // MATH
 
-    // __fill_tryte(t, 0, 2, 64);
-    // set_tryte(memory, 3, t);    // 7
+    __fill_tryte(t, 0, 1, 64);
+    set_tryte(memory, 3, t);    // 4
 
-    // __fill_tryte(t, 0, 4, 0);
-    // set_tryte(memory, 4, t);    // STORE
+    __fill_tryte(t, 0, 4, 0);
+    set_tryte(memory, 4, t);    // STORE
 
-    // __fill_tryte(t, 0, 2, 64);
-    // set_tryte(memory, 5, t);    // 7
+    __fill_tryte(t, 0, 1, 64);
+    set_tryte(memory, 5, t);    // 4
 
-    // __fill_tryte(t, 0, 5, 64);
-    // set_tryte(memory, 6, t);    // HALT
+    __fill_tryte(t, 0, 5, 64);
+    set_tryte(memory, 6, t);    // HALT
 
-    // __fill_tryte(t, 0, 0, 64);
-    // set_tryte(memory, 7, t);    // 1
+    __fill_tryte(t, 0, 0, 64);
+    set_tryte(memory, 7, t);    // 1
 
-    // __fill_tryte(IP, 0, 0, 0); // Set IP to 0
-
-    // do {
-    //     set_tryte(OP, 0, get_tryte(memory, read_tryte(IP)));
-    //     switch(read_tryte(OP)) {
-    //         case NOOP:
-    //             puts("NOOP\n");
-    //             break;
-    //         case COMP:
-    //             puts("COMP\n");
-    //             break;
-    //         case JUMP:
-    //             puts("JUMP\n");
-    //             break;
-    //         case JMPG:
-    //             puts("JMPG\n");
-    //             break;
-    //         case JMPL:
-    //             puts("JMPL\n");
-    //             break;
-    //         case JMPGE:
-    //             puts("JMPGE\n");
-    //             break;
-    //         case JMPLE:
-    //             puts("JMPLE\n");
-    //             break;
-    //         case JMPE:
-    //             puts("JMPE\n");
-    //             break;
-    //         case JMPN:
-    //             puts("JMPN\n");
-    //             break;
-    //         case STORE:
-    //             puts("STORE\n");
-    //             break;
-    //         case LOAD:
-    //             puts("LOAD\n");
-    //             break;
-    //         case MATH:
-    //             puts("MATH\n");
-    //             break;
-    //         case CALL:
-    //             puts("CALL\n");
-    //             break;
-    //         case HALT:
-    //             puts("HALT\n");
-    //             break;
-    //     }
-    //     ALU_add(IP, ONE);
-    // } while(read_tryte(OP) != HALT);
+    do {
+        set_tryte(OP, 0, get_tryte(memory, read_tryte(IP)));
+        switch(read_tryte(OP)) {
+            case NOOP:
+                puts("NOOP\n");
+                break;
+            case COMP:
+                puts("COMP\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case JUMP:
+                puts("JUMP\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case JMPG:
+                puts("JMPG\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case JMPL:
+                puts("JMPL\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case JMPGE:
+                puts("JMPGE\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case JMPLE:
+                puts("JMPLE\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case JMPE:
+                puts("JMPE\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case JMPN:
+                puts("JMPN\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case STORE:
+                puts("STORE\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case LOAD:
+                puts("LOAD\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case MATH:
+                puts("MATH\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case CALL:
+                puts("CALL\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case HALT:
+                puts("HALT\n");
+                break;
+        }
+        ALU_add(IP, ONE);
+    } while(read_tryte(OP) != HALT);
 
     // char buffer[200];
     // uint64_t file = open("./exec.txt");
@@ -143,13 +183,13 @@ int main(int argc, char const* argv[]) {
     //     puts("\n");
     // }
 
-    __tryte(foo) = __tryteMIN;
+    // __tryte(foo) = __tryteMIN;
 
-    for(uint16_t i = 0; i <= TRYTE_MAX; i++) {
-        puts(btryte_to_string(foo));
-        puts(" = ");
-        puts(itoa(read_btryte(foo)));
-        puts("\n");
-        ALU_add(foo, ONE);
-    }
+    // for(uint16_t i = 0; i <= TRYTE_MAX; i++) {
+    //     puts(btryte_to_string(foo));
+    //     puts(" = ");
+    //     puts(itoa(read_btryte(foo)));
+    //     puts("\n");
+    //     ALU_add(foo, ONE);
+    // }
 }

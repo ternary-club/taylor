@@ -12,7 +12,7 @@ __triple_word(GENERAL)[HEPTA_VINTIMAL];
 // Accumulator
 __tryte(ACC);
 // Instruction pointer
-__tryte(IP);
+__tryte(IP) = __tryteMIN;
 // Operation register (SHOULD BE TRYBBLE)
 __tryte(OP);
 // Argument register
