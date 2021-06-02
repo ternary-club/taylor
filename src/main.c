@@ -30,6 +30,7 @@
 
 // Default memory is 3MtT
 #define MEMORY_SIZE (3 * METRI)
+
 // Memory
 __tryte_buffer(memory, MEMORY_SIZE);
 
@@ -49,7 +50,7 @@ int main(int argc, char const* argv[]) {
 
     uint64_t i = 0;
     char buffer;
-    uint64_t file = open("./exec.ter");
+    uint64_t file = open("./alg.ter");
     while(read(file, &buffer, 1)) memory[i++] = buffer;
 
     // __tryte(t);

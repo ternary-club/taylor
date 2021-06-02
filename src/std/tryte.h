@@ -116,12 +116,3 @@
 #define __tryteMINP1    {0U, 0U, 64U}
 // A -9841 valued balanced tryte definition
 #define __tryteMIN      {0U, 0U, 0U}
-
-// // A 9841 valued balanced tryte
-// const __tryte(tryteMAX) = {170U, 170U, 128U};
-// // A 0 valued balanced tryte
-// const __tryte(tryteZERO) = {85U, 85U, 64U};
-// // A 1 valued balanced tryte
-// const __tryte(tryteONE) = {0U, 0U, 64U};
-// // A -9841 valued balanced tryte
-// const __tryte(tryteMIN) = {0U, 0U, 0U};
