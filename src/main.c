@@ -148,16 +148,16 @@ int main(int argc, char const* argv[]) {
     // puts(buffer);
     // puts("\n");
 
-    __tryte(a) = {85, 106, 0};
-    __tryte(b) = {85, 21, 64};
+    // __tryte(a) = {85, 106, 0};
+    // __tryte(b) = {85, 21, 64};
 
-    puts(tryte_to_bstring(a));
-    puts(" + ");
-    puts(tryte_to_bstring(b));
-    puts(" = ");
-    ALU_add(a, b);
-    puts(tryte_to_bstring(a));
-    puts("\n");
+    // puts(tryte_to_bstring(a));
+    // puts(" + ");
+    // puts(tryte_to_bstring(b));
+    // puts(" = ");
+    // ALU_add(a, b);
+    // puts(tryte_to_bstring(a));
+    // puts("\n");
 
     // for(uint8_t i = 0; i < 9; i++) {
     //     puts(batata(i % 3));
@@ -167,4 +167,15 @@ int main(int argc, char const* argv[]) {
     //     puts(batata(__sum(i % 3, i / 3)));
     //     puts("\n");
     // }
+
+    __tryte(foo) = __tryteMIN;
+    __tryte(bar) = __tryteONE;
+
+    for(uint16_t i = 0; i <= TRYTE_MAX; i++) {
+        puts(tryte_to_bstring(foo));
+        puts(" = ");
+        puts(tryte_to_string(foo));
+        puts("\n");
+        ALU_add(foo, bar);
+    }
 }

@@ -47,6 +47,15 @@
 // 1 heptavintimal character = 3 trits
 #define HEPTA_VINTIMAL_TRIT (HEPTA_VINTIMAL / TRYTE_TRIT)
 
+// Max value of a tryte = 3^9 - 1 = 19682
+#define TRYTE_MAX 19682L
+
+// Max value of a balanced tryte = 3^9 / 2 = 9841
+#define BTRYTE_MAX 9841L
+
+// Min value of a balanced tryte = 3^9 / 2 * -1 = -9841
+#define BTRYTE_MIN -9841L
+
 // 1 Kitri (Kt) = 3^7 = 2187
 #define KITRI 2187L
 
@@ -97,8 +106,20 @@
                                     t[1] = v1; \
                                     t[2] = v2
 
-// A 0 valued tryte
-__tryte(tryteEMPTY) = {85U, 85U, 64U};
+// A 9841 valued balanced tryte definition
+#define __tryteMAX {170U, 170U, 128U}
+// A -9841 valued balanced tryte definition
+#define __tryteMIN {0U, 0U, 0U}
+// A 0 valued balanced tryte definition
+#define __tryteZERO {85U, 85U, 64U}
+// A 1 valued balanced tryte definition
+#define __tryteONE {85U, 85U, 128U}
 
-// A 19683 valued tryte
-__tryte(tryteFULL) = {170U, 170U, 128U};
+// // A 9841 valued balanced tryte
+// const __tryte(tryteMAX) = {170U, 170U, 128U};
+// // A 0 valued balanced tryte
+// const __tryte(tryteZERO) = {85U, 85U, 64U};
+// // A 1 valued balanced tryte
+// const __tryte(tryteONE) = {0U, 0U, 64U};
+// // A -9841 valued balanced tryte
+// const __tryte(tryteMIN) = {0U, 0U, 0U};

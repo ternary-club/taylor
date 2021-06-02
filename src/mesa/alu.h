@@ -27,15 +27,15 @@ __tryte(__alu_RESULT);
 __trybble(__alu_FLAGS);
 
 void ALU_add(__tryte_ptr(target), __tryte_ptr(source)) {
-    __trit(carry) = 1;
-    for(uint8_t i = 0; i < TRYTE_TRIT; i++) {
-        uint8_t byte = __byte_of_trit(i);
-        uint8_t offset = __trit_offset(i);
+    __trit(carry) = b01;
+    for(uint8_t i = TRYTE_TRIT; i > 0; i--) {
+        uint8_t byte = __byte_of_trit(i-1);
+        uint8_t offset = __trit_offset(i-1);
         uint8_t a = (source[byte] & b11 << offset) >> offset;
         uint8_t b = (target[byte] & b11 << offset) >> offset;
         target[byte] &= ~(b11 << offset);
         target[byte] |= __sum(__sum(a, b), carry) << offset;
         carry = __any(__con(a, b), __con(__sum(a, b), carry));
     }
-    if(!!carry) __alu_FLAGS |= 192; // Set carry (0b11000000)
+    if(carry != b01) __alu_FLAGS |= 192; // Set carry (0b11000000)
 }

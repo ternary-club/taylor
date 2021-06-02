@@ -62,15 +62,15 @@ __tryte_ret get_tryte(__tryte_ptr(memory), uint64_t address) {
 uint64_t read_tryte(__tryte_ptr(tryte)) {
     uint64_t r = 0;
     for(uint8_t i = 0; i < TRYTE_TRIT; i++) {
-        uint8_t offset = (BYTE_TRIT - 1 - i % BYTE_TRIT) * 2;
-        uint8_t value = (tryte[__byte_of_trit(i)] & 3 << offset) >> offset; // 3 = 0b11
+        uint8_t offset = __trit_offset(i);
+        uint8_t value = (tryte[__byte_of_trit(i)] & b11 << offset) >> offset;
         switch(value) {
-            case 0: // 0 = 0b00
+            case b00:
                 continue;
-            case 3: // 3 = 0b11
+            case b11:
                 panic(); // double-one
                 return 0;
-            default: // 1 = 0b01
+            case b01:
                 r += power(3, TRYTE_TRIT - i - 1) * value;
                 continue;
         }
@@ -87,30 +87,30 @@ const char *show_tryte(__tryte_ptr(memory), uint64_t address, uint64_t count) {
         memBuffer[p++] = '|';
         for(uint8_t j = 0; j < TRYTE_TRIT; j += HEPTA_VINTIMAL_TRIT) {
             // 0tX00 +
-            uint8_t trit = ((t[__byte_of_trit(j + 0)] & 3 // 3 = 0b11
+            uint8_t trit = ((t[__byte_of_trit(j + 0)] & b11
                 << (BYTE_TRIT - 1 - (j + 0) % BYTE_TRIT) * TRIT_BIT)
                 >> (BYTE_TRIT - 1 - (j + 0) % BYTE_TRIT) * TRIT_BIT);
-            if(trit == 3) { // 3 = 0b11 (double-one)
+            if(trit == b11) {
                 memBuffer[p++] = '?';
                 continue;
             }            
             memBuffer[p] += trit * 9; // 3 to the power of 2
 
             // 0t0X0 +
-            trit = ((t[__byte_of_trit(j + 1)] & 3 // 3 = 0b11
+            trit = ((t[__byte_of_trit(j + 1)] & b11
                 << (BYTE_TRIT - 1 - (j + 1) % BYTE_TRIT) * TRIT_BIT)
                 >> (BYTE_TRIT - 1 - (j + 1) % BYTE_TRIT) * TRIT_BIT);
-            if(trit == 3) { // 3 = 0b11 (double-one)
+            if(trit == b11) {
                 memBuffer[p++] = '?';
                 continue;
             }            
             memBuffer[p] += trit * 3; // 3 to the power of 1
             
             // 0t00X
-            trit = ((t[__byte_of_trit(j + 2)] & 3 // 3 = 0b11
+            trit = ((t[__byte_of_trit(j + 2)] & b11
                 << (BYTE_TRIT - 1 - (j + 2) % BYTE_TRIT) * TRIT_BIT)
                 >> (BYTE_TRIT - 1 - (j + 2) % BYTE_TRIT) * TRIT_BIT);
-            if(trit == 3) { // 3 = 0b11 (double-one)
+            if(trit == b11) {
                 memBuffer[p++] = '?';
                 continue;
             }            
