@@ -45,6 +45,26 @@ void set_tryte(__tryte_ptr(memory), uint64_t address, __tryte_ptr(t)) {
     memory[byte + 2] |= (t[2] & 192) >> offset; // 192 = 0b11000000 = Last byte mask for normal tryte
 }
 
+// Tryte (3 bytes) to integer
+uint16_t read_tryte(__tryte_ptr(t)) {
+    uint16_t result = 0;
+    for(uint8_t i = 0; i < TRYTE_TRIT; i++)
+        result += ((t[__byte_of_trit(i)]
+            & (b11 << __trit_offset(i))) >> __trit_offset(i))
+            * power(3, TRYTE_TRIT - 1 - i);
+    return result;
+}
+
+// Balanced tryte (3 bytes) to integer
+int16_t read_btryte(__tryte_ptr(t)) {
+    int16_t result = 0;
+    for(uint8_t i = 0; i < TRYTE_TRIT; i++)
+        result += (((t[__byte_of_trit(i)]
+            & (b11 << __trit_offset(i))) >> __trit_offset(i)) - 1)
+            * power(3, TRYTE_TRIT - 1 - i);
+    return result;
+}
+
 // Get tryte from memory
 __tryte_ret get_tryte(__tryte_ptr(memory), uint64_t address) {
     __tryte_buffer(t, 1);
@@ -56,26 +76,6 @@ __tryte_ret get_tryte(__tryte_ptr(memory), uint64_t address) {
     t[1] |= memory[byte + 2] >> CHAR_BIT - offset;
     t[2] =  memory[byte + 2] << offset;
     return t;
-}
-
-// Transform tryte to uint64_t
-uint64_t read_tryte(__tryte_ptr(tryte)) {
-    uint64_t r = 0;
-    for(uint8_t i = 0; i < TRYTE_TRIT; i++) {
-        uint8_t offset = __trit_offset(i);
-        uint8_t value = (tryte[__byte_of_trit(i)] & b11 << offset) >> offset;
-        switch(value) {
-            case b00:
-                continue;
-            case b11:
-                panic(); // double-one
-                return 0;
-            case b01:
-                r += power(3, TRYTE_TRIT - i - 1) * value;
-                continue;
-        }
-    }
-    return r;
 }
 
 // Return string of up to 1 KT of read trytes beginning on provided address

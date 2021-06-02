@@ -33,7 +33,7 @@
 
 int main(int argc, char const* argv[]) {
     // Memory
-    __tryte_buffer(memory, MEMORY_SIZE);
+    // __tryte_buffer(memory, MEMORY_SIZE);
 
     // 0 load 4
     // 1 add  4
@@ -49,7 +49,7 @@ int main(int argc, char const* argv[]) {
     // set_tryte(memory, 1, t);    // 7
 
     // __fill_tryte(t, 0, 4, 128);
-    // set_tryte(memory, 2, t);    // ADD
+    // set_tryte(memory, 2, t);    // MATH
 
     // __fill_tryte(t, 0, 2, 64);
     // set_tryte(memory, 3, t);    // 7
@@ -60,87 +60,62 @@ int main(int argc, char const* argv[]) {
     // __fill_tryte(t, 0, 2, 64);
     // set_tryte(memory, 5, t);    // 7
 
-    // __fill_tryte(t, 0, 6, 64);
+    // __fill_tryte(t, 0, 5, 64);
     // set_tryte(memory, 6, t);    // HALT
 
     // __fill_tryte(t, 0, 0, 64);
     // set_tryte(memory, 7, t);    // 1
 
-    // INSTRUCTION in = NOOP;
-    // while(in != HALT) {
-    //     set_tryte(__OP, 0, get_tryte(memory, read_tryte(__IP)));
-    //     in = read_tryte(__OP);
+    // __fill_tryte(IP, 0, 0, 0); // Set IP to 0
 
-    //     switch(in) {
+    // do {
+    //     set_tryte(OP, 0, get_tryte(memory, read_tryte(IP)));
+    //     switch(read_tryte(OP)) {
     //         case NOOP:
     //             puts("NOOP\n");
     //             break;
     //         case COMP:
     //             puts("COMP\n");
-    //             __IP++;
     //             break;
     //         case JUMP:
     //             puts("JUMP\n");
-    //             __IP++;
     //             break;
     //         case JMPG:
     //             puts("JMPG\n");
-    //             __IP++;
     //             break;
     //         case JMPL:
     //             puts("JMPL\n");
-    //             __IP++;
     //             break;
     //         case JMPGE:
     //             puts("JMPGE\n");
-    //             __IP++;
     //             break;
     //         case JMPLE:
     //             puts("JMPLE\n");
-    //             __IP++;
     //             break;
     //         case JMPE:
     //             puts("JMPE\n");
-    //             __IP++;
     //             break;
     //         case JMPN:
     //             puts("JMPN\n");
-    //             __IP++;
     //             break;
     //         case STORE:
     //             puts("STORE\n");
-    //             __IP++;
     //             break;
     //         case LOAD:
     //             puts("LOAD\n");
-    //             __IP++;
     //             break;
-    //         case ADD:
-    //             puts("ADD\n");
-    //             __IP++;
-    //             break;
-    //         case SUB:
-    //             puts("SUB\n");
-    //             __IP++;
-    //             break;
-    //         case MUL:
-    //             puts("MUL\n");
-    //             __IP++;
-    //             break;
-    //         case DIV:
-    //             puts("DIV\n");
-    //             __IP++;
+    //         case MATH:
+    //             puts("MATH\n");
     //             break;
     //         case CALL:
     //             puts("CALL\n");
-    //             __IP++;
     //             break;
     //         case HALT:
     //             puts("HALT\n");
     //             break;
     //     }
-    //     __IP++;
-    // }
+    //     ALU_add(IP, ONE);
+    // } while(read_tryte(OP) != HALT);
 
     // char buffer[200];
     // uint64_t file = open("./exec.txt");
@@ -169,13 +144,12 @@ int main(int argc, char const* argv[]) {
     // }
 
     __tryte(foo) = __tryteMIN;
-    __tryte(bar) = __tryteONE;
 
     for(uint16_t i = 0; i <= TRYTE_MAX; i++) {
-        puts(tryte_to_bstring(foo));
+        puts(btryte_to_string(foo));
         puts(" = ");
-        puts(tryte_to_string(foo));
+        puts(itoa(read_btryte(foo)));
         puts("\n");
-        ALU_add(foo, bar);
+        ALU_add(foo, ONE);
     }
 }

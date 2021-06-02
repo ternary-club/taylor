@@ -18,16 +18,6 @@
 #include "std/str.h"
 #endif
 
-// Tryte (3 bytes) integer to string
-const char *tryte_to_string(__tryte_ptr(t)) {
-    int64_t result = 0;
-    for(uint8_t i = 0; i < TRYTE_TRIT; i++)
-        result += (((t[__byte_of_trit(i)]
-            & (b11 << __trit_offset(i))) >> __trit_offset(i)) - 1)
-            * power(3, TRYTE_TRIT - 1 - i);
-    return itoa(result);
-}
-
 // Tryte (3 bytes) integer to ternary string
 const char *tryte_to_tstring(__tryte_ptr(t)) {
     static char tryteBuffer[2 + TRYTE_TRIT + 1];
@@ -41,8 +31,8 @@ const char *tryte_to_tstring(__tryte_ptr(t)) {
     return tryteBuffer;
 }
 
-// Tryte (3 bytes) integer to trinary string
-const char *tryte_to_bstring(__tryte_ptr(t)) {
+// Balanced tryte (3 bytes) integer to trinary string
+const char *btryte_to_string(__tryte_ptr(t)) {
     static char tryteBuffer[TRYTE_TRIT + 1];
     for(uint8_t i = 0; i < TRYTE_TRIT; i++) {
         uint8_t offset = __trit_offset(i);

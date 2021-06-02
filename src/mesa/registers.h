@@ -3,14 +3,17 @@
 #include "../std/tryte.h"
 #endif
 
+// Constant 1
+__tryte(ONE) = __tryteONE;
+
 // General purpose registers
-__triple_word(__GENERAL)[HEPTA_VINTIMAL];
+__triple_word(GENERAL)[HEPTA_VINTIMAL];
 
 // Accumulator
-__tryte(__ACC);
+__tryte(ACC);
 // Instruction pointer
-__tryte(__IP);
-// Operation register
-__trybble(__OP);
+__tryte(IP);
+// Operation register (SHOULD BE TRYBBLE)
+__tryte(OP);
 // Argument register
-__tryte(__AR);
+__tryte(AR);
