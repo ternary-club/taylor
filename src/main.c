@@ -41,36 +41,41 @@ void pop_tryte() {
 
 int main(int argc, char const* argv[]) {
 
-    // 0 load 4
-    // 1 add  4
-    // 2 stor 4
-    // 3 halt
-    // 4 1
-    
-    __tryte(t);
-    __fill_tryte(t, 0, 4, 64);
-    set_tryte(memory, 0, t);    // LOAD
+    // load 4
+    // add  4
+    // stor 4
+    // halt
+    // 1
 
-    __fill_tryte(t, 0, 1, 64);
-    set_tryte(memory, 1, t);    // 4
+    uint64_t i = 0;
+    char buffer;
+    uint64_t file = open("./exec.ter");
+    while(read(file, &buffer, 1)) memory[i++] = buffer;
 
-    __fill_tryte(t, 0, 4, 128);
-    set_tryte(memory, 2, t);    // MATH
+    // __tryte(t);
+    // __fill_tryte(t, 0, 4, 64);
+    // set_tryte(memory, 0, t);    // LOAD
 
-    __fill_tryte(t, 0, 1, 64);
-    set_tryte(memory, 3, t);    // 4
+    // __fill_tryte(t, 0, 2, 64);
+    // set_tryte(memory, 1, t);    // 7
 
-    __fill_tryte(t, 0, 4, 0);
-    set_tryte(memory, 4, t);    // STORE
+    // __fill_tryte(t, 0, 4, 128);
+    // set_tryte(memory, 2, t);    // MATH
 
-    __fill_tryte(t, 0, 1, 64);
-    set_tryte(memory, 5, t);    // 4
+    // __fill_tryte(t, 0, 2, 64);
+    // set_tryte(memory, 3, t);    // 7
 
-    __fill_tryte(t, 0, 5, 64);
-    set_tryte(memory, 6, t);    // HALT
+    // __fill_tryte(t, 0, 4, 0);
+    // set_tryte(memory, 4, t);    // STORE
 
-    __fill_tryte(t, 0, 0, 64);
-    set_tryte(memory, 7, t);    // 1
+    // __fill_tryte(t, 0, 2, 64);
+    // set_tryte(memory, 5, t);    // 7
+
+    // __fill_tryte(t, 0, 5, 64);
+    // set_tryte(memory, 6, t);    // HALT
+
+    // __fill_tryte(t, 0, 0, 64);
+    // set_tryte(memory, 7, t);    // 1
 
     do {
         set_tryte(OP, 0, get_tryte(memory, read_tryte(IP)));
@@ -156,12 +161,6 @@ int main(int argc, char const* argv[]) {
         }
         ALU_add(IP, ONE);
     } while(read_tryte(OP) != HALT);
-
-    // char buffer[200];
-    // uint64_t file = open("./exec.txt");
-    // read(file, buffer, 200);
-    // puts(buffer);
-    // puts("\n");
 
     // __tryte(a) = {85, 106, 0};
     // __tryte(b) = {85, 21, 64};
