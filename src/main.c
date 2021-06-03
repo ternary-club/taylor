@@ -50,8 +50,9 @@ int main(int argc, char const* argv[]) {
 
     uint64_t i = 0;
     char buffer;
-    uint64_t file = open("./alg.ter");
-    while(read(file, &buffer, 1)) memory[i++] = buffer;
+    int64_t file = open("./exec.ter");
+    if(file <= 0) return 1;
+    while (read(file, &buffer, 1)) memory[i++] = buffer;
 
     // __tryte(t);
     // __fill_tryte(t, 0, 4, 64);
