@@ -41,43 +41,12 @@ void pop_tryte() {
 }
 
 int main(int argc, char const* argv[]) {
-
-    // load 4
-    // add  4
-    // stor 4
-    // halt
-    // 1
-
-    uint64_t i = 0;
     char buffer;
-    int64_t file = open("./exec.ter");
+    intptr file = open("./exec.ter");
     if(file <= 0) return 1;
-    while (read(file, &buffer, 1)) memory[i++] = buffer;
-
-    // __tryte(t);
-    // __fill_tryte(t, 0, 4, 64);
-    // set_tryte(memory, 0, t);    // LOAD
-
-    // __fill_tryte(t, 0, 2, 64);
-    // set_tryte(memory, 1, t);    // 7
-
-    // __fill_tryte(t, 0, 4, 128);
-    // set_tryte(memory, 2, t);    // MATH
-
-    // __fill_tryte(t, 0, 2, 64);
-    // set_tryte(memory, 3, t);    // 7
-
-    // __fill_tryte(t, 0, 4, 0);
-    // set_tryte(memory, 4, t);    // STORE
-
-    // __fill_tryte(t, 0, 2, 64);
-    // set_tryte(memory, 5, t);    // 7
-
-    // __fill_tryte(t, 0, 5, 64);
-    // set_tryte(memory, 6, t);    // HALT
-
-    // __fill_tryte(t, 0, 0, 64);
-    // set_tryte(memory, 7, t);    // 1
+    
+    uint64_t i = 0;
+    while(read(file, &buffer, 1)) memory[i++] = buffer;
 
     do {
         set_tryte(OP, 0, get_tryte(memory, read_tryte(IP)));
@@ -145,8 +114,32 @@ int main(int argc, char const* argv[]) {
                 puts(itoa(read_tryte(OP)));
                 puts("\n");
                 break;
-            case MATH:
-                puts("MATH\t");
+            case ADD:
+                puts("ADD\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case SUB:
+                puts("SUB\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case MUL:
+                puts("MUL\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case DIV:
+                puts("DIV\t");
+                pop_tryte();
+                puts(itoa(read_tryte(OP)));
+                puts("\n");
+                break;
+            case MOD:
+                puts("MOD\t");
                 pop_tryte();
                 puts(itoa(read_tryte(OP)));
                 puts("\n");
@@ -163,34 +156,4 @@ int main(int argc, char const* argv[]) {
         }
         ALU_add(IP, ONE);
     } while(read_tryte(OP) != HALT);
-
-    // __tryte(a) = {85, 106, 0};
-    // __tryte(b) = {85, 21, 64};
-
-    // puts(tryte_to_bstring(a));
-    // puts(" + ");
-    // puts(tryte_to_bstring(b));
-    // puts(" = ");
-    // ALU_add(a, b);
-    // puts(tryte_to_bstring(a));
-    // puts("\n");
-
-    // for(uint8_t i = 0; i < 9; i++) {
-    //     puts(batata(i % 3));
-    //     puts(" sum ");
-    //     puts(batata(i / 3));
-    //     puts(" = ");
-    //     puts(batata(__sum(i % 3, i / 3)));
-    //     puts("\n");
-    // }
-
-    // __tryte(foo) = __tryteMIN;
-
-    // for(uint16_t i = 0; i <= TRYTE_MAX; i++) {
-    //     puts(btryte_to_string(foo));
-    //     puts(" = ");
-    //     puts(itoa(read_btryte(foo)));
-    //     puts("\n");
-    //     ALU_add(foo, ONE);
-    // }
 }
