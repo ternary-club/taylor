@@ -10,7 +10,7 @@
 
 #ifndef DRIVER_IO_H
 #define DRIVER_IO_H
-#include "./driver/io.h"
+#include "../driver/io.h"
 #endif
 
 #ifndef STD_STR_H

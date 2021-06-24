@@ -45,7 +45,7 @@ void set_tryte(__tryte_ptr(memory), uint64_t address, __tryte_ptr(t)) {
     memory[byte + 2] |= (t[2] & 192) >> offset; // 192 = 0b11000000 = Last byte mask for normal tryte
 }
 
-// Tryte (3 bytes) to integer
+// Tryte (3 bytes) to integer 
 uint16_t read_tryte(__tryte_ptr(t)) {
     uint16_t result = 0;
     for(uint8_t i = 0; i < TRYTE_TRIT; i++)

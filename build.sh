@@ -1,6 +1,6 @@
 #!/bin/sh
 
-exename="tailor"
+exename="taylor"
 
 gcc -pedantic -s -O2 -Werror \
 -nostdlib \

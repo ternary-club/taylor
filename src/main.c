@@ -44,7 +44,7 @@ int main(int argc, char const* argv[]) {
     char buffer;
     intptr file = open("./exec.ter");
     if(file <= 0) return 1;
-    
+
     uint64_t i = 0;
     while(read(file, &buffer, 1)) memory[i++] = buffer;
 
