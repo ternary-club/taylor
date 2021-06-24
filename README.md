@@ -1,4 +1,4 @@
-# TAILOR (**T**ern**A**ry v**I**rtua**L** pr**O**cesso**R**)
+# TAYLOR (**T**ern**A**r**Y** virtua**L** pr**O**cesso**R**)
 
 ## Operation codes with parameters
 0  **NOOP**
