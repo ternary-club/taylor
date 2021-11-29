@@ -7,10 +7,11 @@
 __tryte_ret uint8_to_tryte(uint8_t n) {
     __tryte(t);
     uint8_t i = 0, l = TRYTE_TRIT - 1;
-    while(n) {
+    while (n) {
         t[__byte_of_trit(l - i)] &= ~(b11 << __trit_offset(l - i));
         t[__byte_of_trit(l - i)] |= (n % 3) << __trit_offset(l - i);
-        n /= 3; i++;
+        n /= 3;
+        i++;
     }
     return t;
 }
@@ -19,11 +20,12 @@ __tryte_ret uint8_to_tryte(uint8_t n) {
 __tryte_ret uint64_to_word(uint64_t n) {
     __word(t);
     uint8_t i = 0;
-    while(n) {
-        uint8_t offset =  __trit_offset(WORD_TRIT - 1 - i);
+    while (n) {
+        uint8_t offset = __trit_offset(WORD_TRIT - 1 - i);
         t[__byte_of_trit(WORD_TRIT - 1 - i)] &= ~(b11 << offset);
         t[__byte_of_trit(WORD_TRIT - 1 - i)] |= (n % 3) << offset;
-        n /= 3; i++;
+        n /= 3;
+        i++;
     }
     return t;
 }
@@ -43,7 +45,7 @@ __trit_ret __not(__trit(t)) {
     const uint8_t y = t & b01;
     u &= ~b11;
     u |= notX ^ y << 1 | y;
-    
+
     return u;
 }
 
@@ -253,8 +255,7 @@ __trit_ret __nor(__trit(t), __trit(u)) {
     const uint8_t z = u & b10;
     const uint8_t w = u & b01;
     v &= ~b11;
-    v |= ~(x | y << 1 | z | w << 1) & b10
-    | ~(x ^ z) >> 1 & (y | w);
+    v |= ~(x | y << 1 | z | w << 1) & b10 | ~(x ^ z) >> 1 & (y | w);
     return v;
 }
 
@@ -275,8 +276,7 @@ __trit_ret __xor(__trit(t), __trit(u)) {
     const uint8_t z = u & b10;
     const uint8_t w = u & b01;
     v &= ~b11;
-    v |= x & (~z ^ w << 1) | z & (~x ^ y << 1)
-    | w | y;
+    v |= x & (~z ^ w << 1) | z & (~x ^ y << 1) | w | y;
     return v;
 }
 
@@ -299,8 +299,8 @@ __trit_ret __sum(__trit(t), __trit(u)) {
     const uint8_t z = u & b10;
     const uint8_t w = u & b01;
     v &= ~b11;
-    v |= (notY << 1 ^ z) & (~x ^ w << 1)
-    | z >> 1 & notY & notX >> 1 | y & w | ~(z >> 1 | w) & x >> 1;
+    v |= (notY << 1 ^ z) & (~x ^ w << 1) | z >> 1 & notY & notX >> 1 | y & w |
+         ~(z >> 1 | w) & x >> 1;
     return v;
 }
 
@@ -321,8 +321,7 @@ __trit_ret __con(__trit(t), __trit(u)) {
     const uint8_t z = u & b10;
     const uint8_t w = u & b01;
     v &= ~b11;
-    v |= x & z
-    | (x >> 1 | y | z >> 1 | w) & ~(x & z) >> 1;
+    v |= x & z | (x >> 1 | y | z >> 1 | w) & ~(x & z) >> 1;
     return v;
 }
 
@@ -343,7 +342,8 @@ __trit_ret __any(__trit(t), __trit(u)) {
     const uint8_t z = u & b10;
     const uint8_t w = u & b01;
     v &= ~b11;
-    v |= y << 1 & z | x & (z | w << 1)
-    | (~(x >> 1 | y | w) & z >> 1 | ~(y | z >> 1 | w) & x >> 1 | y & w) & b01;
+    v |=
+        y << 1 & z | x & (z | w << 1) |
+        (~(x >> 1 | y | w) & z >> 1 | ~(y | z >> 1 | w) & x >> 1 | y & w) & b01;
     return v;
 }
